@@ -1,0 +1,5 @@
+setuptools~=68.2.0
+Cython~=3.0.7
+comtypes~=1.2.0
+numpy~=1.26.2
+pygame~=2.5.2
