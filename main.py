@@ -22,7 +22,7 @@ maya_pipe_size = 8+8+4+20*packet_size
 maya_pipe = shared_memory.SharedMemory(name="/.pipe/maya_pipe", create=True, size=maya_pipe_size)
 maya_pipe_buf = maya_pipe.buf
 
-node_server_addr = ("192.168.137.39", 1234)
+node_server_addr = ("192.168.137.214", 1234)
 
 kinect_process = Process()
 q = Queue()
@@ -155,7 +155,7 @@ def start_read():
             maya_data.update({joint_name: (w, x, y, z)})
 
         for joint in maya_data:
-            parent = hierarchy[joint]["parent"]
+            parent = hierarchy.get(joint, {}).get("parent")
             if parent is not None:
                 maya_data[joint] = quatmath.getchildlocalrot(maya_data[parent], maya_data[joint])
 
@@ -213,6 +213,7 @@ def promt():
                 start_read()
             except Exception as e:
                 print(e)
+                clean()
             break
         elif cmd == "reset":
             reset()
